@@ -1,0 +1,107 @@
+.main-card-holder {
+    background: linear-gradient(110deg, #650000 0%, #000000 100%);
+    border: #707070 1px solid;
+    border-radius: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .card-front {
+        display: none;
+        position: relative;
+        text-align: center;
+
+        .logo-jedi {
+            scale: 80%;
+            padding-top: 0.2rem;
+            position: absolute;
+            left: 35%;
+        }
+
+        .card-picture-holder {
+            padding: 3rem 1rem 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 28/31;
+
+            .personal-photo-front {
+                border: #707070 1px solid;
+                border-bottom: none;
+                border-radius: 15px 15px 0 0;
+                width: 90%;
+                height: 100%;
+                object-fit: cover;
+                object-position: top;
+            }
+        }
+
+        .card-name {
+            background: linear-gradient(110deg, #000000 0%, #650000 100%);
+            border: #707070 1px solid;
+            padding: 1rem;
+            width: 90%;
+            border-radius: 0 0 15px 15px;
+            color: white;
+            text-transform: uppercase;
+        }
+    }
+
+    .card-back {
+        position: relative;
+
+        .logo-jedi {
+            scale: 80%;
+            padding-top: 0.2rem;
+            position: absolute;
+            left: 35%;
+        }
+
+        .card-information {
+            text-align: center;
+
+            .card-name {
+                padding-top: 4rem;
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .information-card-back {
+
+                .personal-photo-back {
+                    width: 15rem;
+                    height: 15rem;
+                    object-fit: cover;
+                    object-position: top;
+                }
+
+                h2 {
+                    font-size: 18px;
+                    margin: 10px 0 5px;
+                }
+
+                p {
+                    font-size: 16px;
+                    margin: 0 0 10px;
+                }
+            }
+
+            .add-to-team {
+                background-color: #ff0000;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+
+                &:hover {
+                    background-color: #cc0000;
+                }
+            }
+        }
+    }
+}
