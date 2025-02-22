@@ -1,51 +1,47 @@
 import styles from "../css/card.module.css";
-import { useStarWarsCharacters } from "../utils/api";
-import { useState, useEffect } from "react";
 import { Character } from "../types/StarwarsApi.types";
-import logo from "../assets/Sith-Logo.png"
+import logoSith from "../assets/Sith-Logo.png";
+import logoJedi from "../assets/Jedi-Logo.png";
 
-const CardComponent: React.FC = () => {
-  const { data, error, isLoading } = useStarWarsCharacters();
-  const [character, setCharacter] = useState<Character | null>(null);
+interface CardComponentProps {
+  character: Character;
+}
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      const randomCharacter = data[Math.floor(Math.random() * data.length)];
-      setCharacter(randomCharacter);
-    }
-  }, [data]);
+const CardComponent: React.FC<CardComponentProps> = ({ character }) => {
+  // Check if the character has any affiliation with Sith or Jedi
+  const isSith = character.affiliations?.every((affiliation) =>
+    !["Resistance", "Lars family","Jedi Order", "Jedi High Council", "Grand Army of the Republic", "Alliance to Restore the Republic"].some((item) => affiliation.toLowerCase().includes(item.toLowerCase()))
+  );
+  
+  const isJedi = character.affiliations?.length === 0 || character.affiliations?.some((affiliation) =>
+    affiliation.toLowerCase().includes("jedi")
+  );
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading data.</p>;
-  if (!character) return null;
+  // Set the classes conditionally based on affiliations
+  const cardClass = isSith ? styles.sithCard : styles.jediCard;
+  const logoClass = isSith ? styles.logoSith : styles.logoJedi;
+  const cardNameClass = isSith ? styles.sithName : styles.jediName;
 
   return (
-    <div className={styles["main-card-holder"]}>
-      <div className={styles["card-front"]}>
-        <img src={logo} alt="logo-jedi" className={styles["logo-jedi"]} />
-        <div className={styles["card-picture-holder"]}>
-          <img src={character.image} alt={character.name} className={styles["personal-photo-front"]} />
-          <h1 className={styles["card-name"]}>{character.name}</h1>
-        </div>
-      </div>
-      <div className={styles["card-back"]}>
-      <img src={logo} alt="logo-jedi" className={styles["logo-jedi"]} />
-        <div className={styles["card-information"]}>
-          <h1 className={styles["card-name"]}>{character.name}</h1>
-          <div className={styles["information-card-back"]}>
-            <img src={character.image} alt={character.name} className={styles["personal-photo-back"]} />
-            <h2>SPECIES:</h2>
-            <p className={styles["card-species"]}>{character.species || "Unknown"}</p>
-            <h2>HEIGHT:</h2>
-            <p className={styles["card-height"]}>{character.height || "Unknown"}</p>
-            <h2>WEIGHT:</h2>
-            <p className={styles["card-weight"]}>{character.mass || "Unknown"}</p>
-            <h2>BORN:</h2>
-            <p className={styles["card-born"]}>{character.born || "Unknown"}</p>
-            <h2>DIED:</h2>
-            <p className={styles["card-died"]}>{character.died || "Unknown"}</p>
+    <div className={`${styles.mainCardHolder} ${cardClass}`}>
+      <div className={styles.flipCardInner}>
+        <div className={`${styles.cardFront} ${styles.flipCardFront}`}>
+          <img
+            src={isSith ? logoSith : logoJedi} // Apply Sith or Jedi logo
+            alt={isSith ? "Sith Logo" : "Jedi Logo"}
+            className={`${styles.logo} ${logoClass}`}
+          />
+          <div className={styles.cardPictureHolder}>
+            <img
+              src={character.image}
+              alt={character.name}
+              className={styles.personalPhotoFront}
+            />
+            <h1 className={`${styles.cardName} ${cardNameClass}`}>{character.name}</h1>
           </div>
-          <button className={styles["add-to-team"]}>ADD TO TEAM</button>
+        </div>
+        <div className={`${styles.cardBack} ${styles.flipCardBack}`}>
+          
         </div>
       </div>
     </div>

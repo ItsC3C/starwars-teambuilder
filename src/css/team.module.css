@@ -1,0 +1,8 @@
+.team-component {
+    max-width: 130px;
+    max-height: 810px;
+    display: flex;
+    border: solid 1px gray;
+    background: linear-gradient(#00355C 0%, #0F1E27 100%);
+    gap: 1rem;
+}

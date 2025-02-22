@@ -1,10 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import GridComponent from './components/GridComponent.tsx'
+import Layout from './components/Layout.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GridComponent />
+    <Layout />
   </StrictMode>,
 )

@@ -1,5 +1,29 @@
-.main-grid {
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+
+    h1 {}
+
+    input {
+        border: none;
+        color: black;
+        width: 250px;
+        height: 25px;
+        border-radius: 10px;
+
+        &::placeholder {
+            padding-left: 1rem;
+            font-size: 10px;
+        }
+    }
+}
+
+.mainGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
 }
+
+.navigation {}
