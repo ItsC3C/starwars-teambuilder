@@ -90,7 +90,20 @@
         }
 
         .cardBack {
+            position: absolute;
             transform: rotateY(180deg);
+
+            .cardDetails {
+                li {
+
+                    .cardTitle {
+                        text-decoration: none;
+
+                    }
+
+                    .cardText {}
+                }
+            }
         }
     }
 }

@@ -41,7 +41,33 @@ const CardComponent: React.FC<CardComponentProps> = ({ character }) => {
           </div>
         </div>
         <div className={`${styles.cardBack} ${styles.flipCardBack}`}>
-          
+          <ul className={styles.cardDetails}>
+            <li>
+              <h2 className={styles.cardTitle}>SPECIES:</h2>
+              <p className={styles.cardText}>{character.species || "unknown"}</p>
+            </li>
+            <li>
+              <h2 className={styles.cardTitle}>HEIGHT:</h2>
+              <p className={styles.cardText}>{character.height || "unknown"}</p>
+            </li>
+            <li>
+              <h2 className={styles.cardTitle}>MASS:</h2>
+              <p className={styles.cardText}>{character.mass || "unknown"}</p>
+            </li>
+            <li>
+              <h2 className={styles.cardTitle}>BORN:</h2>
+              <p className={styles.cardText}>
+                {character.born ? `${character.born}, ${character.bornLocation}` : "unknown"}
+              </p>
+            </li>
+            <li>
+              <h2 className={styles.cardTitle}>DIED:</h2>
+              <p className={styles.cardText}>
+                {character.died ? `${character.died}, ${character.diedLocation}` : "unknown"}
+              </p>
+            </li>
+            <button>ADD TO TEAM</button>
+          </ul>
         </div>
       </div>
     </div>
