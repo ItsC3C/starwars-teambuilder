@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="55" height="27" viewBox="0 0 55 27">
+  <g id="Group_82" data-name="Group 82" transform="translate(0 -0.368)">
+    <g id="Rectangle_49" data-name="Rectangle 49" transform="translate(0 5.368)" fill="none" stroke="#707070" stroke-width="1">
+      <rect width="55" height="18" rx="5" stroke="none"/>
+      <rect x="0.5" y="0.5" width="54" height="17" rx="4.5" fill="none"/>
+    </g>
+    <text id="_" data-name="←" transform="matrix(-1, 0, 0, 1, 28, 22.368)" fill="#fff" font-size="23" font-family="LucidaGrande-Bold, Lucida Grande" font-weight="700"><tspan x="-11.5" y="0">←</tspan></text>
+  </g>
+</svg>

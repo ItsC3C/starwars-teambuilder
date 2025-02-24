@@ -1,24 +1,15 @@
-import { useStarWarsCharacters } from "./utils/api";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import CharacterDetail from "./components/DetailPage";
 
-const App = () => {
-  const { data, error, isLoading } = useStarWarsCharacters();
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
+const App: React.FC = () => {
   return (
-    <div>
-      <h2>Star Wars Characters:</h2>
-      {data ? (
-        <ul>
-          {data.map((character: { id: number; name: string }) => (
-            <li key={character.id}>{character.name}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No data available.</p>
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />} />
+        {/* <Route path="/character/:id" element={<CharacterDetail />} /> */}
+      </Routes>
+    </Router>
   );
 };
 

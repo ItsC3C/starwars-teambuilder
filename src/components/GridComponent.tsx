@@ -1,36 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import CardComponent from "./CardComponent";
-import Pagination from "./PaginationComponent"; // Import the Pagination component
+import Pagination from "./PaginationComponent";
 import styles from "../css/grid.module.css";
 import { useStarWarsCharacters } from "../utils/api";
-import { Character } from "../types/StarwarsApi.types"; // Import the Character type
+import { Character } from "../types/StarwarsApi.types";
 
-const GridComponent = () => {
+interface GridComponentProps {
+  onAddToTeam: (id: number) => void;
+  isInTeam: (id: number) => boolean; // Pass isInTeam function to check if character is in the team
+}
+
+const GridComponent: React.FC<GridComponentProps> = ({
+  onAddToTeam,
+  isInTeam,
+}) => {
   const { data, error, isLoading } = useStarWarsCharacters();
   const [pageSize, setPageSize] = useState(20); // Default to 20 cards per page
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState(""); // Search input state
-  const [filteredData, setFilteredData] = useState<Character[]>([]); // Filtered data based on search
 
-  useEffect(() => {
-    if (data) {
-      setFilteredData(data);
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    if (searchValue) {
+      return data.filter((character: Character) =>
+        character.name.toLowerCase().includes(searchValue.toLowerCase())
+      );
     }
-  }, [data]);
+    return data;
+  }, [data, searchValue]);
 
-  // Handle search filter
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.toLowerCase(); // Get the search value in lowercase
-    setSearchValue(value);
-  
-    // Filter characters based on the search query
-    const filtered = data.filter((character: Character) =>
-      character.name.toLowerCase().includes(value) // Check if the character's name includes the search value
-    );
-    setFilteredData(filtered);
-    setCurrentPage(1); // Reset to first page after search to ensure proper pagination
+    setSearchValue(event.target.value);
+    setCurrentPage(1); // Reset to first page after search
   };
 
+  // Loading and error handling
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Failed to load characters</p>;
 
@@ -54,10 +58,16 @@ const GridComponent = () => {
 
       <div className={styles.mainGrid}>
         {currentCharacters.map((character: Character) => (
-          <CardComponent key={character.id} character={character} />
+          <CardComponent
+            key={character.id}
+            character={character}
+            onAddToTeam={onAddToTeam}
+            isInTeam={isInTeam}
+          />
         ))}
       </div>
 
+      {/* Pagination */}
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

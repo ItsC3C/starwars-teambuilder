@@ -1,4 +1,5 @@
 .mainCardHolder {
+    aspect-ratio: 19/26;
     text-align: center;
     border: 1px solid #707070;
     border-radius: 15px;
@@ -9,7 +10,7 @@
     width: 100%;
     max-width: 350px;
     perspective: 1000px;
-    cursor: pointer;
+    position: relative;
 
     &.sithCard {
         background: linear-gradient(110deg, #650000 0%, #000000 100%);
@@ -27,9 +28,12 @@
         transition: transform 0.8s;
         transform-style: preserve-3d;
 
-        .cardFront {
-            position: relative;
+        .flipCardFront {
+            position: absolute;
             width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 
             .logo {
                 position: absolute;
@@ -56,67 +60,96 @@
                     object-fit: cover;
                     object-position: top;
                 }
-            }
 
-            .cardName {
-                border: 1px solid #707070;
-                padding: 0.5rem;
-                line-height: 15px;
-                font-size: 10px;
-                width: 100%;
-                border-radius: 0 0 15px 15px;
-                color: white;
-                text-transform: uppercase;
-            }
-
-            .addToTeamButton {
-                position: absolute;
-                bottom: 25%;
-                left: 50%;
-                transform: translateX(-50%);
-                background: white;
-                color: black;
-                padding: 0.5rem 1rem;
-                border-radius: 5px;
-                font-weight: bold;
-                cursor: pointer;
-                border: none;
-                transition: 0.3s ease-in-out;
-
-                &:hover {
-                    background: #ddd;
+                .cardName {
+                    border: 1px solid #707070;
+                    padding: 0.5rem;
+                    line-height: 15px;
+                    font-size: 10px;
+                    width: 100%;
+                    border-radius: 0 0 15px 15px;
+                    color: white;
+                    text-transform: uppercase;
                 }
             }
         }
 
-        .cardBack {
+        .flipCardBack {
             position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             transform: rotateY(180deg);
 
             .cardDetails {
-                li {
+                color: white;
+                padding: 1rem;
 
-                    .cardTitle {
-                        text-decoration: none;
+                .backCardFoto {
+                    width: 60%;
 
+                    .personalPhotoFrontBack {
+                        max-height: 150px;
+                        border-radius: 15px;
+                        border: 1px solid #707070;
+                        object-fit: cover;
+                        object-position: top;
+                        aspect-ratio: 1/1;
+                        width: 100%;
                     }
+                }
 
-                    .cardText {}
+                li {
+                    display: flex;
+                    align-items: end;
+                    justify-content: space-between;
+                    margin-bottom: 0.5rem;
+                    list-style: none;
+
+                    .cardText {
+                        font-size: 12px;
+                        color: #707070;
+                    }
+                }
+
+                .cardButton {
+                    font-family: 'Orbitron', sans-serif;
+                    padding: 0.5rem 1rem;
+                    color: white;
+                    background-color: transparent;
+                    border: 1px solid #707070;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    transition: all 500ms;
+
+                    &:hover {
+                        background: white;
+                        color: black;
+                    }
+                }
+
+                &.disable .cardButton {
+                    background: gray;
+                    cursor: not-allowed;
                 }
             }
         }
     }
-}
 
-.mainCardHolder:hover .flipCardInner {
-    transform: rotateY(180deg);
-}
+    &:hover .flipCardInner {
+        transform: rotateY(180deg);
+    }
 
-.flipCardFront,
-.flipCardBack {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
+    .flipCardInner.noRotation {
+        transform: none !important;
+    }
+
+    .flipCardFront.noRotation {
+        pointer-events: none;
+    }
+
+    .flipCardBack.hidden {
+        display: none !important;
+    }
 }
