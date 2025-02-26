@@ -1,23 +1,8 @@
-.home {
-    color: white;
-    position: absolute;
-    top: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    text-decoration: underline;
-    transition: all 500ms;
-    cursor: pointer;
-
-    &:hover {
-        color: #FFE81F;
-    }
-}
-
 .mainDetailHolder {
     align-items: center;
     display: flex;
     gap: 2rem;
-    height: 95vh;
+    height: 100vh;
 
     .gridDetailHolder {
         padding: 2rem;

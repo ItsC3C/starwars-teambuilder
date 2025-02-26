@@ -8,7 +8,6 @@ const App: React.FC = () => {
     <Router>
       <Layout>
         <Routes>
-          {/* Pass the selected character and its Sith/Jedi status through location.state */}
           <Route path="/" element={<MainPage />} />
           <Route path="/character/:id" element={<DetailPage />} />
         </Routes>

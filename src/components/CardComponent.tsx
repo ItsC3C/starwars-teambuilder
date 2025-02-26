@@ -120,16 +120,19 @@ const CardComponent: React.FC<CardComponentProps> = ({
                     : "unknown"}
                 </p>
               </li>
-              <button
-                className={styles.cardButton}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onAddToTeam(cardId);
-                }}
-              >
-                {isInTeam(cardId) ? "ALREADY IN TEAM" : "ADD TO TEAM"}
-              </button>
+              {/* Only show button if not a Sith */}
+              {!isSith && (
+                <button
+                  className={styles.cardButton}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onAddToTeam(cardId);
+                  }}
+                >
+                  {isInTeam(cardId) ? "ALREADY IN TEAM" : "ADD TO TEAM"}
+                </button>
+              )}
             </ul>
           </div>
         </div>

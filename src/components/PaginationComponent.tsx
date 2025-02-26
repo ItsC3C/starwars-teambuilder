@@ -17,15 +17,17 @@ const Pagination: React.FC<PaginationProps> = ({
   onPrevious,
   onNext,
 }) => {
+  totalPages = 88;
   return (
     <div className={styles.navigation}>
       <div className="wrapper">
         <div className={styles.pagination}>
+          {/* Previous Button */}
           <img
             src={previous}
             alt="Previous button"
             className={`${styles.previous} ${
-              currentPage === 1 ? styles.disabled : ""
+              currentPage === 1 ? styles.disablePrevious : ""
             }`}
             onClick={onPrevious}
           />
@@ -34,7 +36,7 @@ const Pagination: React.FC<PaginationProps> = ({
             src={next}
             alt="Next button"
             className={`${styles.next} ${
-              currentPage === totalPages ? styles.disabled : ""
+              currentPage === totalPages ? styles.disableNext : ""
             }`}
             onClick={onNext}
           />

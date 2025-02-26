@@ -11,6 +11,7 @@ interface TeamComponentProps {
   onRemoveFromTeam: (id: number) => void;
   isInTeam: (id: number) => boolean;
   characters: Character[]; // Full list of characters
+  setIsSidebarOpen: (isOpen: boolean) => void; // Pass setter for opening the sidebar
 }
 
 const TeamComponent: React.FC<TeamComponentProps> = ({
@@ -18,8 +19,8 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
   onRemoveFromTeam,
   isInTeam,
   characters,
+  setIsSidebarOpen, // Get the setter function
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [battleResult, setBattleResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,16 +48,12 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
   };
 
   return (
-    <div
-      className={`${styles.teamComponent} ${
-        isOpen ? styles.open : styles.closed
-      }`}
-    >
+    <div className={styles.teamComponent}>
       <img
         src={menuButton}
         alt="menu button"
         className={styles.menuButton}
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsSidebarOpen(true)} // Open sidebar
       />
 
       <div className={styles.sidebar}>
@@ -65,7 +62,7 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
             src={closebutton}
             alt="close button"
             className={styles.closeButton}
-            onClick={() => setIsOpen(false)}
+            onClick={() => setIsSidebarOpen(false)} // Close sidebar
           />
           <h1 className={styles.myTeamTitle}>MY TEAM</h1>
         </div>
