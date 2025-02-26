@@ -1,0 +1,48 @@
+.home {
+    color: white;
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: underline;
+    transition: all 500ms;
+    cursor: pointer;
+
+    &:hover {
+        color: #FFE81F;
+    }
+}
+
+.mainDetailHolder {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+    height: 95vh;
+
+    .gridDetailHolder {
+        padding: 2rem;
+        height: 80%;
+        border: 1px solid #707070;
+        border-radius: 25px;
+        width: 80%;
+
+        &.sith {
+            background: linear-gradient(110deg, #650000 0%, #000000 98%);
+        }
+
+        &.jedi {
+            background: linear-gradient(110deg, #007624 0%, #000000 98%);
+        }
+    }
+
+    .teamDetailHolder {
+        padding: 2rem;
+        background: linear-gradient(180deg, #00355C 0%, #0F1E27 100%);
+        border: 1px solid #707070;
+        border-radius: 25px;
+        height: 80%;
+        width: 20%;
+    }
+}
+
+.pagination {}

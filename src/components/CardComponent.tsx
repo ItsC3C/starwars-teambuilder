@@ -2,59 +2,70 @@ import styles from "../css/card.module.css";
 import { Character } from "../types/StarwarsApi.types";
 import logoSith from "../assets/Sith-Logo.png";
 import logoJedi from "../assets/Jedi-logo.svg";
-import { Link } from "react-router-dom"; // Import Link to handle navigation
+import { Link } from "react-router-dom";
 
 interface CardComponentProps {
   character: Character;
   onAddToTeam: (id: number) => void;
   isInTeam: (id: number) => boolean;
-  onRemove: () => void;
-  selectedId: string | null;
+  onRemove?: (id: number) => void;
+  selectedId?: number;
   customClass?: string;
+  onSelectCharacter: (
+    character: Character,
+    isSith: boolean,
+    isJedi: boolean
+  ) => void;
 }
+
+// Updated isSithOrJedi function: If not Sith, assume Jedi
+const isSithOrJedi = (character: Character) => {
+  const lowerName = character.name.toLowerCase();
+  const affiliations =
+    character.affiliations?.map((a) => a.toLowerCase()) || [];
+  const master = character.masters || "";
+
+  // Check for Sith (based on name, affiliations, and master's name)
+  const isSith =
+    lowerName.includes("darth") ||
+    lowerName.includes("sith") ||
+    affiliations.some((a) => a.includes("darth") || a.includes("sith")) ||
+    master.includes("darth");
+
+  // If not Sith, automatically set as Jedi
+  const isJedi =
+    !isSith &&
+    (lowerName.includes("jedi") ||
+      affiliations.some((a) => a.includes("jedi")));
+
+  return { isSith, isJedi };
+};
 
 const CardComponent: React.FC<CardComponentProps> = ({
   character,
   onAddToTeam,
   isInTeam,
-  onRemove,
-  selectedId,
   customClass,
+  onSelectCharacter,
 }) => {
-  const isSith =
-    character.name.toLowerCase().includes("darth") ||
-    character.name.toLowerCase().includes("sith") ||
-    character.affiliations?.some(
-      (affiliation) =>
-        affiliation.toLowerCase().includes("darth") ||
-        affiliation.toLowerCase().includes("sith")
-    );
-
-  const isJedi =
-    !isSith &&
-    (character.name.toLowerCase().includes("jedi") ||
-      character.affiliations?.some((affiliation) =>
-        affiliation.toLowerCase().includes("jedi")
-      ));
-
+  const { isSith, isJedi } = isSithOrJedi(character); // Determine if character is Sith or Jedi
   const cardClass = isSith ? styles.sithCard : styles.jediCard;
   const logoClass = isSith ? styles.logoSith : styles.logoJedi;
   const cardNameClass = isSith ? styles.sithName : styles.jediName;
-
   const cardId = character.id;
-
   const cardDisabledClass =
     isInTeam(cardId) && !customClass?.includes(styles.inTeam)
       ? styles.disabled
       : "";
-
-  // Apply hidden class if character is in team
   const flipCardBackClass = isInTeam(cardId) ? styles.hidden : "";
   const flipCardFrontClass = isInTeam(cardId) ? styles.noRotation : "";
 
   return (
-    // Wrap the card in a Link to navigate to the character detail page
-    <Link to={`/character/${cardId}`} className={styles.cardLink}>
+    <Link
+      to={`/character/${cardId}`}
+      state={{ character, isSith, isJedi }}
+      onClick={() => onSelectCharacter(character, isSith, isJedi)}
+    >
       <div
         className={`${
           styles.mainCardHolder
@@ -122,7 +133,8 @@ const CardComponent: React.FC<CardComponentProps> = ({
               <button
                 className={styles.cardButton}
                 onClick={(e) => {
-                  e.preventDefault(); // Prevent the link navigation to allow button action
+                  e.preventDefault();
+                  e.stopPropagation();
                   onAddToTeam(cardId);
                 }}
               >

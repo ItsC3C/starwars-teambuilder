@@ -1,14 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import DetailPage from "./pages/DetailPage";
 import Layout from "./components/Layout";
-import CharacterDetail from "./components/DetailPage";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Layout />} />
-        {/* <Route path="/character/:id" element={<CharacterDetail />} /> */}
-      </Routes>
+      <Layout>
+        <Routes>
+          {/* Pass the selected character and its Sith/Jedi status through location.state */}
+          <Route path="/" element={<MainPage />} />
+          <Route path="/character/:id" element={<DetailPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 };

@@ -13,5 +13,13 @@ body {
     background-color: black;
     background-size: cover;
     background-position: center;
-    padding: 2rem 5rem;
+    padding: 0rem 5rem 2rem 5rem;
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+.footer {
+    text-align: center;
+    opacity: 0.8;
+    padding-top: 2rem;
 }

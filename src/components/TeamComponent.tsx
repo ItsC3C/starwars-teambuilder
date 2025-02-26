@@ -25,12 +25,10 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
   const [battleResult, setBattleResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ Filter only selected team members
   const teamCharacters = characters.filter((character) =>
     team.includes(character.id)
   );
 
-  // Function to determine battle result
   const handleBattle = () => {
     if (teamCharacters.length !== 5) {
       setError(
@@ -40,84 +38,73 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
       return;
     }
 
-    setError(null); // Clear previous errors
-
-    const randomChance = Math.random(); // Generates a number between 0 and 1
-    if (randomChance < 0.75) {
-      setBattleResult("🔥 The Force is strong with you! Victory is yours! 💫");
-    } else {
-      setBattleResult(
-        "☠️ You fought bravely, but the Dark Side prevails... 🌑"
-      );
-    }
-
+    setError(null);
+    const randomChance = Math.random();
+    setBattleResult(
+      randomChance < 0.75
+        ? "🔥 The Force is strong with you! Victory is yours! 💫"
+        : "☠️ You fought bravely, but the Dark Side prevails... 🌑"
+    );
     setTimeout(() => setBattleResult(null), 4000);
   };
 
   return (
-    <div className={`${styles.teamComponent} ${isOpen ? styles.open : ""}`}>
-      {!isOpen && (
-        <img
-          src={menuButton}
-          alt="menu button"
-          className={`${styles.menuButton} ${isOpen ? styles.open : ""}`}
-          onClick={() => setIsOpen(true)}
-        />
-      )}
-      {isOpen && (
+    <div
+      className={`${styles.teamComponent} ${
+        isOpen ? styles.open : styles.closed
+      }`}
+    >
+      <img
+        src={menuButton}
+        alt="menu button"
+        className={styles.menuButton}
+        onClick={() => setIsOpen(true)}
+      />
+
+      <div className={styles.sidebar}>
         <div className={styles.header}>
           <img
             src={closebutton}
             alt="close button"
-            className={styles.closebutton}
+            className={styles.closeButton}
             onClick={() => setIsOpen(false)}
           />
-          <h1 className={styles.myTeamtitle}>MY TEAM</h1>
+          <h1 className={styles.myTeamTitle}>MY TEAM</h1>
         </div>
-      )}
 
-      {isOpen && (
-        <>
-          <div className={styles.myTeamHolder}>
-            {teamCharacters.length > 0 ? (
-              teamCharacters.map((character) => (
-                <div key={character.id} className={styles.myTeamCard}>
-                  <div className={styles.cardContent}>
-                    <CardComponent
-                      onAddToTeam={onRemoveFromTeam}
-                      character={character}
-                      onRemove={() => onRemoveFromTeam(character.id)}
-                      isInTeam={isInTeam}
-                      selectedId={selectedId}
-                    />
-                  </div>
-                  <button
-                    className={styles.removeButton}
-                    onClick={() => onRemoveFromTeam(character.id)}
-                  >
-                    <img
-                      src={removeButton}
-                      alt="remove button"
-                      className={styles.closebutton}
-                    />
-                  </button>
+        <div className={styles.myTeamHolder}>
+          {teamCharacters.length > 0 ? (
+            teamCharacters.map((character) => (
+              <div key={character.id} className={styles.myTeamCard}>
+                <div className={styles.cardContent}>
+                  <CardComponent
+                    onAddToTeam={onRemoveFromTeam}
+                    character={character}
+                    onRemove={() => onRemoveFromTeam(character.id)}
+                    isInTeam={isInTeam}
+                    selectedId={selectedId}
+                  />
                 </div>
-              ))
-            ) : (
-              <p>No characters selected</p>
-            )}
-          </div>
-
-          <button className={styles.battleButton} onClick={handleBattle}>
-            BATTLE
-          </button>
-
-          {error && <p className={styles.errorMessage}>{error}</p>}
-          {battleResult && (
-            <p className={styles.battleResult}>{battleResult}</p>
+                <button
+                  className={styles.removeButton}
+                  onClick={() => onRemoveFromTeam(character.id)}
+                >
+                  <img src={removeButton} alt="remove button" />
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No characters selected</p>
           )}
-        </>
-      )}
+        </div>
+
+        <button className={styles.battleButton} onClick={handleBattle}>
+          BATTLE
+        </button>
+
+        {error && <p className={styles.errorMessage}>{error}</p>}
+        {battleResult && <p className={styles.battleResult}>{battleResult}</p>}
+      </div>
     </div>
   );
 };
