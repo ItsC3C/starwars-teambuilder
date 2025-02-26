@@ -8,20 +8,14 @@ import { Character } from "../types/StarwarsApi.types";
 interface GridComponentProps {
   onAddToTeam: (id: number) => void;
   isInTeam: (id: number) => boolean;
-  onSelectCharacter: (
-    character: Character,
-    isSith: boolean,
-    isJedi: boolean
-  ) => void;
 }
 
 const GridComponent: React.FC<GridComponentProps> = ({
   onAddToTeam,
   isInTeam,
-  onSelectCharacter,
 }) => {
   const { data, error, isLoading } = useStarWarsCharacters();
-  const [pageSize, setPageSize] = useState(20);
+  const [pageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
 
@@ -37,24 +31,6 @@ const GridComponent: React.FC<GridComponentProps> = ({
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setCurrentPage(1);
-  };
-
-  const getAffiliation = (character: Character) => {
-    const lowerName = character.name.toLowerCase();
-    const affiliations =
-      character.affiliations?.map((a) => a.toLowerCase()) || [];
-
-    const isSith =
-      lowerName.includes("darth") ||
-      lowerName.includes("sith") ||
-      affiliations.some((a) => a.includes("darth") || a.includes("sith"));
-
-    const isJedi =
-      !isSith &&
-      (lowerName.includes("jedi") ||
-        affiliations.some((a) => a.includes("jedi")));
-
-    return { isSith, isJedi };
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -95,16 +71,12 @@ const GridComponent: React.FC<GridComponentProps> = ({
 
       <div className={styles.mainGrid}>
         {currentCharacters.map((character: Character) => {
-          const { isSith, isJedi } = getAffiliation(character);
           return (
             <CardComponent
               key={character.id}
               character={character}
               onAddToTeam={onAddToTeam}
               isInTeam={isInTeam}
-              onSelectCharacter={() =>
-                onSelectCharacter(character, isSith, isJedi)
-              }
             />
           );
         })}

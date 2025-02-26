@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import GridComponent from "../components/GridComponent";
 import TeamComponent from "../components/TeamComponent";
 import styles from "../css/MainPage.module.css";
@@ -14,15 +13,8 @@ interface MainPageProps {
   ) => void;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ onCharacterSelect }) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+const MainPage: React.FC<MainPageProps> = () => {
   const [team, setTeam] = useState<number[]>([]);
-  const [selectedCharacter, setSelectedCharacter] = useState<{
-    character: Character;
-    isSith: boolean;
-    isJedi: boolean;
-  } | null>(null);
-  const navigate = useNavigate();
   const { data: characters, error, isLoading } = useStarWarsCharacters();
 
   const handleAddToTeam = (id: number) => {
@@ -41,42 +33,14 @@ const MainPage: React.FC<MainPageProps> = ({ onCharacterSelect }) => {
 
   const isInTeam = (id: number) => team.includes(id);
 
-  const checkSithOrJedi = (character: Character) => {
-    const isSith =
-      character.name.toLowerCase().includes("darth") ||
-      character.affiliations?.some((a) => a.toLowerCase().includes("sith"));
-    const isJedi =
-      !isSith &&
-      (character.name.toLowerCase().includes("jedi") ||
-        character.affiliations?.some((a) => a.toLowerCase().includes("jedi")));
-    return { isSith, isJedi };
-  };
-
-  const handleCharacterSelect = (character: Character) => {
-    const { isSith, isJedi } = checkSithOrJedi(character);
-    setSelectedId(character.id.toString());
-    setSelectedCharacter({ character, isSith, isJedi });
-
-    if (onCharacterSelect) onCharacterSelect(character, isSith, isJedi);
-
-    navigate(`/character/${character.id}`, {
-      state: { character, isSith, isJedi },
-    });
-  };
-
   if (isLoading) return <p>Loading characters...</p>;
   if (error) return <p>Failed to load characters. Please try again later.</p>;
 
   return (
     <div className={styles.layout}>
-      <GridComponent
-        onAddToTeam={handleAddToTeam}
-        isInTeam={isInTeam}
-        onSelectCharacter={handleCharacterSelect}
-      />
+      <GridComponent onAddToTeam={handleAddToTeam} isInTeam={isInTeam} />
       <div className={styles.teamHolder}>
         <TeamComponent
-          selectedId={selectedId}
           team={team}
           onRemoveFromTeam={handleRemoveFromTeam}
           isInTeam={isInTeam}

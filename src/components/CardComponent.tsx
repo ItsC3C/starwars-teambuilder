@@ -11,11 +11,6 @@ interface CardComponentProps {
   onRemove?: (id: number) => void;
   selectedId?: number;
   customClass?: string;
-  onSelectCharacter: (
-    character: Character,
-    isSith: boolean,
-    isJedi: boolean
-  ) => void;
 }
 
 // Updated isSithOrJedi function: If not Sith, assume Jedi
@@ -46,7 +41,6 @@ const CardComponent: React.FC<CardComponentProps> = ({
   onAddToTeam,
   isInTeam,
   customClass,
-  onSelectCharacter,
 }) => {
   const { isSith, isJedi } = isSithOrJedi(character); // Determine if character is Sith or Jedi
   const cardClass = isSith ? styles.sithCard : styles.jediCard;
@@ -61,11 +55,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
   const flipCardFrontClass = isInTeam(cardId) ? styles.noRotation : "";
 
   return (
-    <Link
-      to={`/character/${cardId}`}
-      state={{ character, isSith, isJedi }}
-      onClick={() => onSelectCharacter(character, isSith, isJedi)}
-    >
+    <Link to={`/character/${cardId}`} state={{ character, isSith, isJedi }}>
       <div
         className={`${
           styles.mainCardHolder

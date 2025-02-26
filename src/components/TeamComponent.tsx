@@ -7,7 +7,6 @@ import { Character } from "../types/StarwarsApi.types";
 import removeButton from "../assets/remove-button.svg";
 
 interface TeamComponentProps {
-  selectedId: string | null;
   team: number[]; // Array of character IDs
   onRemoveFromTeam: (id: number) => void;
   isInTeam: (id: number) => boolean;
@@ -15,7 +14,6 @@ interface TeamComponentProps {
 }
 
 const TeamComponent: React.FC<TeamComponentProps> = ({
-  selectedId,
   team,
   onRemoveFromTeam,
   isInTeam,
@@ -82,7 +80,6 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
                     character={character}
                     onRemove={() => onRemoveFromTeam(character.id)}
                     isInTeam={isInTeam}
-                    selectedId={selectedId}
                   />
                 </div>
                 <button

@@ -14,16 +14,9 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   currentPage,
-  setCurrentPage,
   onPrevious,
   onNext,
 }) => {
-  const handlePageClick = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-
   return (
     <div className={styles.navigation}>
       <div className="wrapper">

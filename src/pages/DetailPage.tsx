@@ -66,7 +66,7 @@ const DetailPage: React.FC = () => {
           <GridComponentDetail character={characterToDisplay} />
         </section>
         <section className={styles.teamDetailHolder}>
-          <TeamComponentDetail character={characterToDisplay} />
+          <TeamComponentDetail />
         </section>
       </div>
       <div className={styles.pagination}>
