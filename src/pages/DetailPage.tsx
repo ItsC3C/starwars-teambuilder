@@ -29,8 +29,7 @@ const DetailPage: React.FC = () => {
   } = useStarWarsCharacters();
 
   // Initialize pagination hook
-  const { currentPage, handlePreviousClick, handleNextClick, setCurrentPage } =
-    usePagination(Number(id));
+  const { currentPage, setCurrentPage } = usePagination(Number(id));
 
   // Update the characterToDisplay after fetching or using location data
   useEffect(() => {
