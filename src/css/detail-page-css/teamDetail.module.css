@@ -1,0 +1,63 @@
+.mainHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    .myTeam {
+        text-decoration: underline;
+    }
+
+    .inTeamHolder {
+        height: 5rem;
+        width: 100%;
+        border: 1px solid #707070;
+        border-radius: 10px;
+
+        &.sith {
+            background: linear-gradient(110deg, #650000 0%, #000000 98%);
+        }
+
+        &.jedi {
+            background: linear-gradient(110deg, #007624 0%, #000000 98%);
+        }
+
+        .characterCard {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+
+            .imageHolder {
+                width: 4rem;
+                aspect-ratio: 1/1;
+
+
+                .image {
+                    border: 1px solid #707070;
+                    border-radius: 10px;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            .name {
+                font-size: 10px;
+                color: white;
+            }
+
+            .deleteHolder {
+                width: 2rem;
+                transition: transform 0.2s ease-in-out;
+                cursor: pointer;
+
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+}

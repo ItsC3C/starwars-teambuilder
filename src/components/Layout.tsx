@@ -15,11 +15,11 @@ const Layout = ({ children }: PropTypes) => {
       <main>{children}</main>
       <footer className={styles.footer}>
         <p>
-          &copy; {new Date().getFullYear()} - Cédric Van Hoorebeke. All rights
-          reserved.
+          &copy; {getFullYear()} - Cédric Van Hoorebeke. All rights reserved.
         </p>
       </footer>
     </>
   );
 };
+
 export default Layout;

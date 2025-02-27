@@ -21,10 +21,12 @@
     }
 
     .teamDetailHolder {
-        padding: 2rem;
+        right: 0;
+        position: absolute;
+        padding: 2rem 1rem 2rem 2rem;
         background: linear-gradient(180deg, #00355C 0%, #0F1E27 100%);
         border: 1px solid #707070;
-        border-radius: 25px;
+        border-radius: 25px 0px 0px 25px;
         height: 80%;
         width: 20%;
     }

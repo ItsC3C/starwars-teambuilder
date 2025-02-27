@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
 import CardComponent from "./CardComponent";
-import Pagination from "./PaginationComponent";
-import styles from "../css/grid.module.css";
-import { useStarWarsCharacters } from "../utils/api";
-import { Character } from "../types/StarwarsApi.types";
+import Pagination from "../PaginationComponent";
+import styles from "../../css/main-page-css/grid.module.css";
+import { useStarWarsCharacters } from "../../utils/api";
+import { Character } from "../../types/StarwarsApi.types";
 
 interface GridComponentProps {
   onAddToTeam: (id: number) => void;
@@ -15,7 +15,7 @@ const GridComponent: React.FC<GridComponentProps> = ({
   isInTeam,
 }) => {
   const { data, error, isLoading } = useStarWarsCharacters();
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(20); // 20 characters per page
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
 
@@ -30,11 +30,13 @@ const GridComponent: React.FC<GridComponentProps> = ({
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to page 1 on search change
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Failed to load characters</p>;
+  if (error || !data) return <p>Failed to load characters</p>;
+  if (filteredData.length === 0)
+    return <p>No characters found for your search criteria</p>;
 
   const startIndex = (currentPage - 1) * pageSize;
   const currentCharacters = filteredData.slice(
@@ -81,8 +83,9 @@ const GridComponent: React.FC<GridComponentProps> = ({
           );
         })}
       </div>
+
       <Pagination
-        totalPages={totalPages}
+        totalPages={totalPages} // Dynamically calculate totalPages
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         onPrevious={handlePreviousClick}

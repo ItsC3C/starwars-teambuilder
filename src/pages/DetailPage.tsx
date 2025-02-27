@@ -1,147 +1,110 @@
-import useSWR from "swr";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { type Character } from "../types/StarwarsApi.types";
-import { fetcher } from "../utils/helpers";
-import styles from "../css/DetailPage.module.css";
-import GridComponentDetail from "../components/GridComponentDetail.tsx";
-import TeamComponentDetail from "../components/TeamComponentDetail.tsx";
+import { useEffect, useState } from "react";
+import { useCharacter } from "../hooks/useCharacter";
+import { isSithOrJedi } from "../utils/helpers";
+import GridComponentDetail from "../components/detail-page-componets/GridComponentDetail.tsx";
+import TeamComponentDetail from "../components/detail-page-componets/TeamComponentDetail.tsx";
 import Pagination from "../components/PaginationComponent";
-import { useState, useEffect } from "react";
-
-// Import the utility function from CardComponent to keep consistency
-const isSithOrJedi = (character: Character) => {
-  const lowerName = character.name.toLowerCase();
-  const affiliations =
-    character.affiliations?.map((a) => a.toLowerCase()) || [];
-  const master = character.masters || "";
-
-  // Check for Sith (based on name, affiliations, and master's name)
-  const isSith =
-    lowerName.includes("darth") ||
-    lowerName.includes("sith") ||
-    affiliations.some((a) => a.includes("darth") || a.includes("sith")) ||
-    master.includes("darth");
-
-  // If not Sith, automatically set as Jedi
-  const isJedi =
-    !isSith &&
-    (lowerName.includes("jedi") ||
-      affiliations.some((a) => a.includes("jedi")));
-
-  return { isSith, isJedi };
-};
+import styles from "../css/detail-page-css/DetailPage.module.css";
+import { usePagination } from "../hooks/usePagination";
+import { useStarWarsCharacters } from "../utils/api.ts";
 
 const DetailPage: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>(); // Get the current character's id from the URL
   const location = useLocation();
-  const { character: locationCharacter, isSith: locationIsSith = false } =
-    location.state || {};
+  const { character: locationCharacter } = location.state || {}; // Safe access to state
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(Number(id));
+  const [characterToDisplay, setCharacterToDisplay] = useState<any>(null);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
+  // Use useCharacter to fetch character data
+  const { character, isLoading, error } = useCharacter(id);
+
+  // Fetch all characters to determine totalPages dynamically
   const {
-    data: characterFromAPI,
-    isLoading,
-    error,
-  } = useSWR<Character>(
-    `https://akabab.github.io/starwars-api/api/id/${id}.json`,
-    fetcher
-  );
+    data: allCharacters,
+    isLoading: isLoadingAllCharacters,
+    error: errorAllCharacters,
+  } = useStarWarsCharacters();
 
-  // Use the character from location state or API
-  const characterToDisplay = locationCharacter || characterFromAPI;
+  // Initialize pagination hook
+  const { currentPage, handlePreviousClick, handleNextClick, setCurrentPage } =
+    usePagination(Number(id));
 
-  // Determine isSith based on the character data using the shared utility function
-  const { isSith, isJedi } = characterToDisplay
-    ? isSithOrJedi(characterToDisplay)
-    : { isSith: locationIsSith, isJedi: !locationIsSith };
+  // Update the characterToDisplay after fetching or using location data
+  useEffect(() => {
+    setCharacterToDisplay(locationCharacter || character);
+  }, [locationCharacter, character]);
 
+  // Set totalPages dynamically after data is fetched
+  useEffect(() => {
+    if (allCharacters) {
+      const maxId = Math.max(...allCharacters.map((char: any) => char.id)); // Find the highest ID
+      setTotalPages(maxId);
+    }
+  }, [allCharacters]);
+
+  // Show loading or error state if necessary
+  if (isLoading || isLoadingAllCharacters || !characterToDisplay) {
+    return <div>Loading character data...</div>;
+  }
+
+  if (error || errorAllCharacters) {
+    return <div>Error loading character data.</div>;
+  }
+
+  const { isSith } = isSithOrJedi(characterToDisplay);
   const gridDetailClass = isSith ? styles.sith : styles.jedi;
 
-  useEffect(() => {
-    if (!isLoading && error) {
-      findValidId(Number(id));
-    }
-  }, [isLoading, error, id]);
-
-  // Check if ID exists and return the character data
-  const checkIdExists = async (
-    idToCheck: number
-  ): Promise<Character | null> => {
+  const checkCharacterExists = async (id: number): Promise<boolean> => {
     try {
       const response = await fetch(
-        `https://akabab.github.io/starwars-api/api/id/${idToCheck}.json`
+        `https://akabab.github.io/starwars-api/api/id/${id}.json`
       );
-      if (response.ok) {
-        return await response.json();
+
+      // If the status code is 404, it means the character doesn't exist
+      if (response.status === 404) {
+        return false;
       }
-      return null;
-    } catch {
-      return null;
-    }
-  };
 
-  // Find a valid ID (either forward or backward)
-  const findValidId = async (startId: number, searchLimit = 5) => {
-    // Try forward first
-    for (let i = 1; i <= searchLimit; i++) {
-      const character = await checkIdExists(startId + i);
-      if (character) {
-        const { isSith } = isSithOrJedi(character);
-        navigate(`/character/${startId + i}`, {
-          state: { character, isSith },
-        });
-        return;
+      // If the response is OK (200), it means the character exists
+      if (!response.ok) {
+        console.error("Failed to fetch character data", response.status);
+        return false;
       }
-    }
 
-    // Then try backward
-    for (let i = 1; i <= searchLimit; i++) {
-      const prevId = startId - i;
-      if (prevId > 0) {
-        const character = await checkIdExists(prevId);
-        if (character) {
-          const { isSith } = isSithOrJedi(character);
-          navigate(`/character/${prevId}`, {
-            state: { character, isSith },
-          });
-          return;
-        }
+      return true;
+    } catch (error) {
+      console.error("Error checking character existence:", error);
+      return false;
+    }
+  };
+
+  // Find the nearest valid character ID above
+  const findNextValidId = async (startId: number, direction: number) => {
+    let newId = startId;
+
+    while (newId >= 1 && newId <= totalPages) {
+      if (await checkCharacterExists(newId)) {
+        return newId;
       }
+      newId += direction;
     }
 
-    navigate("/"); // Fallback to home if nothing found
+    return direction > 0 ? totalPages : 1; // If no valid ID is found, go to the first or last ID
   };
 
-  const handlePreviousClick = async () => {
-    if (currentPage <= 1) return;
-
-    const prevId = currentPage - 1;
-    const character = await checkIdExists(prevId);
-    if (character) {
-      const { isSith } = isSithOrJedi(character);
-      setCurrentPage(prevId);
-      navigate(`/character/${prevId}`, {
-        state: { character, isSith },
-      });
-    }
+  const handlePreviousClickWithNavigate = async () => {
+    const prevId = await findNextValidId(Number(id) - 1, -1); // Check in reverse direction
+    navigate(`/character/${prevId}`);
   };
 
-  const handleNextClick = async () => {
-    const nextId = currentPage + 1;
-    const character = await checkIdExists(nextId);
-    if (character) {
-      const { isSith } = isSithOrJedi(character);
-      setCurrentPage(nextId);
-      navigate(`/character/${nextId}`, {
-        state: { character, isSith },
-      });
-    }
+  const handleNextClickWithNavigate = async () => {
+    const nextId = await findNextValidId(Number(id) + 1, 1); // Check in forward direction
+    navigate(`/character/${nextId}`);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!characterToDisplay) return <div>Loading character data...</div>;
   return (
     <>
       <div className={styles.mainDetailHolder}>
@@ -149,16 +112,16 @@ const DetailPage: React.FC = () => {
           <GridComponentDetail character={characterToDisplay} />
         </section>
         <section className={styles.teamDetailHolder}>
-          <TeamComponentDetail />
+          <TeamComponentDetail isSith={isSith} />
         </section>
       </div>
       <div className={styles.pagination}>
         <Pagination
-          totalPages={88}
+          totalPages={totalPages} // Dynamic totalPages based on the API data
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          onPrevious={handlePreviousClick}
-          onNext={handleNextClick}
+          onPrevious={handlePreviousClickWithNavigate} // Updated handler
+          onNext={handleNextClickWithNavigate} // Updated handler
         />
       </div>
     </>

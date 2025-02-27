@@ -17,7 +17,6 @@ const Pagination: React.FC<PaginationProps> = ({
   onPrevious,
   onNext,
 }) => {
-  totalPages = 88;
   return (
     <div className={styles.navigation}>
       <div className="wrapper">

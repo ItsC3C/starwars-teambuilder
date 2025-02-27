@@ -1,8 +1,27 @@
-import styles from "../css/card.module.css";
-import { Character } from "../types/StarwarsApi.types";
-import logoSith from "../assets/Sith-Logo.png";
-import logoJedi from "../assets/Jedi-logo.svg";
+import styles from "../../css/main-page-css/card.module.css";
+import { Character } from "../../types/StarwarsApi.types";
+import logoSith from "../../assets/Sith-Logo.png";
+import logoJedi from "../../assets/Jedi-logo.svg";
 import { Link } from "react-router-dom";
+
+// Helper function to determine if character is Sith or Jedi
+const isSithOrJedi = (character: Character) => {
+  const lowerName = character.name.toLowerCase();
+  const affiliations =
+    character.affiliations?.map((a) => a.toLowerCase()) || [];
+  const master = character.masters || "";
+
+  const isSith =
+    lowerName.includes("darth") ||
+    lowerName.includes("sith") ||
+    affiliations.some((a) => a.includes("darth") || a.includes("sith")) ||
+    master.includes("darth");
+
+  return {
+    isSith,
+    isJedi: !isSith && affiliations.some((a) => a.includes("jedi")),
+  };
+};
 
 interface CardComponentProps {
   character: Character;
@@ -13,29 +32,6 @@ interface CardComponentProps {
   customClass?: string;
 }
 
-// Updated isSithOrJedi function: If not Sith, assume Jedi
-const isSithOrJedi = (character: Character) => {
-  const lowerName = character.name.toLowerCase();
-  const affiliations =
-    character.affiliations?.map((a) => a.toLowerCase()) || [];
-  const master = character.masters || "";
-
-  // Check for Sith (based on name, affiliations, and master's name)
-  const isSith =
-    lowerName.includes("darth") ||
-    lowerName.includes("sith") ||
-    affiliations.some((a) => a.includes("darth") || a.includes("sith")) ||
-    master.includes("darth");
-
-  // If not Sith, automatically set as Jedi
-  const isJedi =
-    !isSith &&
-    (lowerName.includes("jedi") ||
-      affiliations.some((a) => a.includes("jedi")));
-
-  return { isSith, isJedi };
-};
-
 const CardComponent: React.FC<CardComponentProps> = ({
   character,
   onAddToTeam,
@@ -43,16 +39,25 @@ const CardComponent: React.FC<CardComponentProps> = ({
   customClass,
 }) => {
   const { isSith, isJedi } = isSithOrJedi(character); // Determine if character is Sith or Jedi
+  const cardId = character.id;
+
+  // Determine classes based on Sith/Jedi
   const cardClass = isSith ? styles.sithCard : styles.jediCard;
   const logoClass = isSith ? styles.logoSith : styles.logoJedi;
   const cardNameClass = isSith ? styles.sithName : styles.jediName;
-  const cardId = character.id;
   const cardDisabledClass =
     isInTeam(cardId) && !customClass?.includes(styles.inTeam)
       ? styles.disabled
       : "";
   const flipCardBackClass = isInTeam(cardId) ? styles.hidden : "";
   const flipCardFrontClass = isInTeam(cardId) ? styles.noRotation : "";
+
+  // Handle the click event for adding to team
+  const handleAddToTeamClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddToTeam(cardId);
+  };
 
   return (
     <Link to={`/character/${cardId}`} state={{ character, isSith, isJedi }}>
@@ -124,11 +129,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
               {!isSith && (
                 <button
                   className={styles.cardButton}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onAddToTeam(cardId);
-                  }}
+                  onClick={handleAddToTeamClick}
                 >
                   {isInTeam(cardId) ? "ALREADY IN TEAM" : "ADD TO TEAM"}
                 </button>

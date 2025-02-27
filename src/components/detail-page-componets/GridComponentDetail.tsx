@@ -1,6 +1,8 @@
-import { type Character } from "../types/StarwarsApi.types";
-import styles from "../css/GridDetail.module.css";
+import { type Character } from "../../types/StarwarsApi.types";
+import styles from "../../css/detail-page-css/GridDetail.module.css";
 import { Link } from "react-router-dom";
+import { useTeam } from "../../context/TeamContext";
+import { showErrorToast } from "../../utils/toastUtils"; // Import toast utility
 
 interface GridComponentDetailProps {
   character: Character;
@@ -9,6 +11,32 @@ interface GridComponentDetailProps {
 const GridComponentDetail: React.FC<GridComponentDetailProps> = ({
   character,
 }) => {
+  const { currentTeam, setCurrentTeam } = useTeam();
+
+  // Handle adding a character to the team
+  const handleAddToTeam = () => {
+    const isCharacterInTeam = currentTeam.some(
+      (member) => member.id === character.id
+    );
+
+    if (isCharacterInTeam) {
+      showErrorToast("This character is already in your team!");
+      return;
+    }
+
+    if (currentTeam.length >= 5) {
+      showErrorToast("Your team can only have 5 members!");
+      return;
+    }
+
+    setCurrentTeam((prevTeam) => [...prevTeam, character]);
+  };
+
+  const isInTeam = currentTeam.some((member) => member.id === character.id);
+  const isSith = character.affiliations?.some(
+    (affiliation) => affiliation.toLowerCase() === "sith"
+  );
+
   return (
     <>
       <Link to="/" className={styles.home}>
@@ -60,7 +88,15 @@ const GridComponentDetail: React.FC<GridComponentDetailProps> = ({
               <li>unknown</li>
             )}
           </ul>
-          <button className={styles.AddToTeamButton}>ADD TO TEAM</button>
+          {!isSith && (
+            <button
+              className={styles.AddToTeamButton}
+              onClick={handleAddToTeam}
+              disabled={isInTeam}
+            >
+              {isInTeam ? "ALREADY IN TEAM" : "ADD TO TEAM"}
+            </button>
+          )}
         </div>
       </div>
     </>
