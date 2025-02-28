@@ -16,6 +16,7 @@ body {
     padding: 0rem 5rem 2rem 5rem;
     overflow-x: hidden;
     height: 100vh;
+    text-align: center;
 }
 
 main {
@@ -26,4 +27,10 @@ main {
     text-align: center;
     opacity: 0.8;
     padding-top: 2rem;
+}
+
+@media screen and (max-width: 800px) {
+    body {
+        padding: 2rem;
+    }
 }

@@ -19,14 +19,14 @@
     gap: 2rem;
 
     .imageHolder {
-        aspect-ratio: 1/1;
+        width: 100%;
         height: 100%;
 
         img {
-            border-radius: 25px;
-            border: 1px solid #707070;
             width: 100%;
+            border-radius: 25px;
             height: 100%;
+            border: 1px solid #707070;
             object-fit: cover;
             object-position: top;
         }
@@ -34,7 +34,6 @@
 
     .detailHolder {
         padding: 0rem 2rem;
-        width: 100%;
         border: 1px solid #707070;
         border-radius: 25px;
         height: 100%;
@@ -42,29 +41,31 @@
         flex-direction: column;
         position: relative;
 
-        .title {
-            text-transform: uppercase;
-            font-size: 20px;
-            text-decoration: underline;
-            padding: 1rem 0rem;
-        }
+
 
         .cardDetails {
+            .title {
+                text-transform: uppercase;
+                font-size: 1rem;
+                text-decoration: underline;
+                padding: 1rem 0rem;
+            }
+
             li {
                 display: flex;
                 align-items: end;
                 justify-content: space-between;
                 margin-bottom: 0.5rem;
                 list-style: none;
-                font-size: 15px;
+                font-size: 0.5rem;
 
                 .cardTitle {
-                    font-size: 12px;
+                    font-size: 0.75rem;
                 }
 
                 .cardText {
                     text-align: end;
-                    font-size: 12px;
+                    font-size: 0.5rem;
                     color: #707070;
                 }
             }
@@ -74,6 +75,13 @@
             padding-bottom: 1rem;
             column-count: 2;
             column-gap: 2rem;
+
+            .title {
+                text-transform: uppercase;
+                font-size: 1rem;
+                text-decoration: underline;
+                padding: 1rem 0rem;
+            }
 
             li {
                 border-bottom: 1px solid #707070;
@@ -109,4 +117,79 @@
             }
         }
     }
+}
+
+@media screen and (max-width: 1070px) {
+    .mainHolder {
+        flex-direction: column;
+        align-items: center;
+
+        .imageHolder {
+            width: 50vw;
+            height: 50vw;
+            max-width: 300px;
+            max-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 25px;
+            }
+        }
+
+        .detailHolder {
+            flex-direction: row;
+            gap: 1rem;
+
+            .cardDetails {
+                width: 50%;
+            }
+
+            .affiliations {
+                column-gap: 3rem;
+                width: 50%;
+
+                .title {
+                    width: 100%;
+                }
+            }
+
+            .AddToTeamButton {}
+        }
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .mainHolder {
+        .detailHolder {
+            flex-direction: column;
+
+            .cardDetails {
+                width: 100%;
+            }
+
+            .affiliations {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .mainHolder {
+        .detailHolder {
+            .affiliations {
+                column-count: 1;
+            }
+
+            .detailHolder {
+                .AddToTeamButton {}
+            }
+        }
+    }
+
 }

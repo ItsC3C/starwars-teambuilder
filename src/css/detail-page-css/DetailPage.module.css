@@ -3,6 +3,7 @@
     display: flex;
     gap: 2rem;
     height: 100vh;
+    padding: 2rem;
 
     .gridDetailHolder {
         padding: 2rem;
@@ -29,5 +30,73 @@
         border-radius: 25px 0px 0px 25px;
         height: 80%;
         width: 20%;
+    }
+}
+
+.mainDetailHolder {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+    height: 100vh;
+    padding: 2rem;
+
+    .gridDetailHolder {
+        padding: 2rem;
+        height: 80%;
+        border: 1px solid #707070;
+        border-radius: 25px;
+        width: 80%;
+
+        &.sith {
+            background: linear-gradient(110deg, #650000 0%, #000000 98%);
+        }
+
+        &.jedi {
+            background: linear-gradient(110deg, #007624 0%, #000000 98%);
+        }
+    }
+
+    .teamDetailHolder {
+        right: 0;
+        position: absolute;
+        padding: 2rem 1rem 2rem 2rem;
+        background: linear-gradient(180deg, #00355C 0%, #0F1E27 100%);
+        border: 1px solid #707070;
+        border-radius: 25px 0px 0px 25px;
+        height: 80%;
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .mainDetailHolder {
+        height: 130vh;
+        align-items: start;
+        flex-direction: column-reverse;
+        width: 100%;
+
+        .gridDetailHolder {
+            width: 100%;
+        }
+
+        .teamDetailHolder {
+            position: static;
+            width: 100%;
+            border-radius: 25px;
+            height: auto;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .mainDetailHolder {
+        height: 170vh;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .mainDetailHolder {
+        width: 130%;
+        height: 170vh;
     }
 }

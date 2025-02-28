@@ -47,8 +47,8 @@ const GridComponentDetail: React.FC<GridComponentDetailProps> = ({
           <img src={character.image} alt={character.name} />
         </div>
         <div className={styles.detailHolder}>
-          <h1 className={styles.title}>DETAILS:</h1>
           <ul className={styles.cardDetails}>
+            <h1 className={styles.title}>DETAILS:</h1>
             <li>
               <h2 className={styles.cardTitle}>SPECIES:</h2>
               <p className={styles.cardText}>
@@ -78,8 +78,8 @@ const GridComponentDetail: React.FC<GridComponentDetailProps> = ({
               </p>
             </li>
           </ul>
-          <h1 className={styles.title}>AFFILIATIONS:</h1>
           <ul className={styles.affiliations}>
+            <h1 className={styles.title}>AFFILIATIONS:</h1>
             {character.affiliations?.length ? (
               character.affiliations.map((affiliation, index) => (
                 <li key={index}>{affiliation}</li>
