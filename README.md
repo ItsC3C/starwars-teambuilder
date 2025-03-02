@@ -79,7 +79,7 @@ Dit project is gelicenseerd onder de MIT-licentie - zie het LICENSE bestand voor
 
 ## Contact
 
-Project Link: [https://github.com/yourusername/star-wars-teambuilder](https://github.com/yourusername/star-wars-teambuilder)
+Project Link: [https://github.com/ItsC3C/star-wars-teambuilder](https://github.com/ItsC3C/star-wars-teambuilder)
 Email: cedricvanhoorebeke@outlook.com
 
 ---
@@ -165,5 +165,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Project Link: [https://github.com/yourusername/star-wars-teambuilder](https://github.com/yourusername/star-wars-teambuilder)
+Project Link: [https://github.com/ItsC3C/star-wars-teambuilder](https://github.com/ItsC3C/star-wars-teambuilder)
 Email: cedricvanhoorebeke@outlook.com
