@@ -1,11 +1,10 @@
-// MainPage.tsx
 import { useState } from "react";
 import GridComponent from "../components/main-page-components/GridComponent";
 import TeamComponent from "../components/main-page-components/TeamComponent";
 import styles from "../css/main-page-css/MainPage.module.css";
 import { useStarWarsCharacters } from "../utils/api";
-import { showErrorToast } from "../utils/toastUtils"; // Import the toast utility
-import { useTeam } from "../context/TeamContext"; // Import TeamContext
+import { showErrorToast } from "../utils/toastUtils";
+import { useTeam } from "../context/TeamContext";
 import { Character } from "../types/StarwarsApi.types";
 
 const MainPage: React.FC = () => {
@@ -15,7 +14,7 @@ const MainPage: React.FC = () => {
 
   const handleAddToTeam = (id: number) => {
     if (currentTeam.length >= 5) {
-      showErrorToast("Your team can only have 5 members!"); // Correct usage
+      showErrorToast("Your team can only have 5 members!");
       return;
     }
 

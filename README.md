@@ -1,5 +1,89 @@
 # Star Wars Teambuilder
 
+Een webapplicatie waarmee gebruikers hun eigen Star Wars karakterteams kunnen creëren en aanpassen.
+
+## Overzicht
+
+Star Wars Teambuilder is een interactieve webapplicatie die fans van het Star Wars universum in staat stelt om hun ideale teams van karakters te creëren, aan te passen en te delen. Of je nu een groep premiejagers, een Jedi-raad, of een mix van helden en schurken van over de hele melkweg samenstelt, deze tool biedt een intuïtieve interface om je team tot leven te brengen.
+
+## Functies
+
+- **Karakterselectie**: Kies uit een uitgebreide database van Star Wars karakters uit alle films, TV-series en canoniek materiaal
+- **Teambuilding**: Creëer gebalanceerde teams met aanpasbare rollen en posities
+- **Statistieken bijhouden**: Bekijk karakterstatistieken en teamsynergie-beoordelingen
+- **Opslaan & Delen**: Exporteer je teamsamenstelling of deel ze direct met andere fans
+- **Responsief Ontwerp**: Volledig functioneel op desktop en mobiele apparaten
+
+## Opmerking over Mobiele Ervaring
+
+Hoewel de applicatie responsief is, zou de mobiele CSS in toekomstige updates verbeterd kunnen worden. Vanwege tijdsbeperkingen en het prioriteren van de projectdeadline, is de mobiele ervaring mogelijk niet zo gepolijst als de desktopversie. Daarnaast heb ik mezelf bewust uitgedaagd met een ambitieus ontwerp dat mijn technische capaciteiten op de proef stelde, wat leidde tot enige complexiteit in de responsieve implementatie.
+
+## Installatie
+
+### Vereisten
+
+- Node.js (v14.0.0 of hoger)
+- npm (v7.0.0 of hoger)
+
+### Bouwen voor Productie
+
+Om een productiebuild te maken:
+
+```
+npm run build
+```
+
+De gebouwde bestanden zullen beschikbaar zijn in de `dist` map.
+
+## Projectstructuur
+
+```
+star-wars-teambuilder/
+├── public/             # Statische assets
+├── src/                # Bronbestanden
+│   ├── components/     # React componenten
+│   ├── css/            # Stylesheets
+│   ├── data/           # Karakter- en teamdata
+│   ├── utils/          # Hulpfuncties
+│   └── App.jsx         # Hoofdapplicatiecomponent
+├── index.html          # Entry HTML bestand
+└── package.json        # Projectafhankelijkheden en scripts
+```
+
+## Gebruikte Technologieën
+
+- React.js - Frontend framework
+- Vite - Build tool en ontwikkelingsserver
+- CSS3 - Styling
+- [Eventuele andere gebruikte bibliotheken of technologieën]
+
+## Bijdragen
+
+1. Fork de repository
+2. Maak je feature branch: `git checkout -b feature/geweldige-feature`
+3. Commit je wijzigingen: `git commit -m 'Voeg geweldige feature toe'`
+4. Push naar de branch: `git push origin feature/geweldige-feature`
+5. Open een Pull Request
+
+## Licentie
+
+Dit project is gelicenseerd onder de MIT-licentie - zie het LICENSE bestand voor details.
+
+## Dankbetuigingen
+
+- Lucasfilm en Disney voor het Star Wars universum
+- [Eventuele gebruikte API's of databronnen]
+- Alle bijdragers en Star Wars fans die feedback geven
+
+## Contact
+
+Project Link: [https://github.com/yourusername/star-wars-teambuilder](https://github.com/yourusername/star-wars-teambuilder)
+Email: cedricvanhoorebeke@outlook.com
+
+---
+
+# Star Wars Teambuilder
+
 A web application that allows users to create and customize their own Star Wars character teams.
 
 ## Overview
@@ -78,3 +162,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 
 Project Link: [https://github.com/yourusername/star-wars-teambuilder](https://github.com/yourusername/star-wars-teambuilder)
+Email: cedricvanhoorebeke@outlook.com

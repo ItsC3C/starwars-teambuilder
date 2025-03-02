@@ -1,7 +1,5 @@
-// utils/toastUtils.ts
 import { toast } from "react-toastify";
 
-// Show toast based on type
 export const showToast = (
   message: string,
   type: "error" | "success" | "info"
@@ -19,12 +17,10 @@ export const showToast = (
   }
 };
 
-// Show error toast
 export const showErrorToast = (message: string): void => {
   showToast(message, "error");
 };
 
-// Show success toast
 export const showSuccessToast = (message: string): void => {
   showToast(message, "success");
 };

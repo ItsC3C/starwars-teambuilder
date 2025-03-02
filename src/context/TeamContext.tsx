@@ -1,17 +1,13 @@
-// context/TeamContext.tsx
 import React, { createContext, useState, ReactNode, useContext } from "react";
 import { Character } from "../types/StarwarsApi.types";
 
-// Define the context type
 interface TeamContextType {
-  currentTeam: Character[]; // Array of characters in the current team
-  setCurrentTeam: React.Dispatch<React.SetStateAction<Character[]>>; // Function to update the current team
+  currentTeam: Character[];
+  setCurrentTeam: React.Dispatch<React.SetStateAction<Character[]>>;
 }
 
-// Create the context with the type
 const TeamContext = createContext<TeamContextType | undefined>(undefined);
 
-// Create a custom hook to use the context
 export const useTeam = (): TeamContextType => {
   const context = useContext(TeamContext);
   if (!context) {
@@ -20,7 +16,6 @@ export const useTeam = (): TeamContextType => {
   return context;
 };
 
-// Create a provider for the context
 interface TeamProviderProps {
   children: ReactNode;
 }

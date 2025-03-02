@@ -21,7 +21,6 @@ const Pagination: React.FC<PaginationProps> = ({
     <div className={styles.navigation}>
       <div className="wrapper">
         <div className={styles.pagination}>
-          {/* Previous Button */}
           <img
             src={previous}
             alt="Previous button"
@@ -30,7 +29,6 @@ const Pagination: React.FC<PaginationProps> = ({
             }`}
             onClick={onPrevious}
           />
-          {/* Next Button */}
           <img
             src={next}
             alt="Next button"

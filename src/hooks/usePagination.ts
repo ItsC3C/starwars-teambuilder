@@ -5,12 +5,12 @@ export const usePagination = (initialPage: number) => {
 
   const handlePreviousClick = (onNavigate: (id: number) => void) => {
     if (currentPage > 1) {
-      onNavigate(currentPage - 1); // Navigate to the previous character
+      onNavigate(currentPage - 1);
     }
   };
 
   const handleNextClick = (onNavigate: (id: number) => void) => {
-    onNavigate(currentPage + 1); // Navigate to the next character
+    onNavigate(currentPage + 1);
   };
 
   return {

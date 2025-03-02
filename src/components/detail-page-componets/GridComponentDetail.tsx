@@ -2,7 +2,7 @@ import { type Character } from "../../types/StarwarsApi.types";
 import styles from "../../css/detail-page-css/GridDetail.module.css";
 import { Link } from "react-router-dom";
 import { useTeam } from "../../context/TeamContext";
-import { showErrorToast } from "../../utils/toastUtils"; // Import toast utility
+import { showErrorToast } from "../../utils/toastUtils";
 
 interface GridComponentDetailProps {
   character: Character;
@@ -13,7 +13,6 @@ const GridComponentDetail: React.FC<GridComponentDetailProps> = ({
 }) => {
   const { currentTeam, setCurrentTeam } = useTeam();
 
-  // Handle adding a character to the team
   const handleAddToTeam = () => {
     const isCharacterInTeam = currentTeam.some(
       (member) => member.id === character.id

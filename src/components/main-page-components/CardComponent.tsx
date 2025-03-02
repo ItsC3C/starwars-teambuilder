@@ -4,7 +4,6 @@ import logoSith from "../../assets/Sith-Logo.png";
 import logoJedi from "../../assets/Jedi-logo.svg";
 import { Link } from "react-router-dom";
 
-// Helper function to determine if character is Sith or Jedi
 const isSithOrJedi = (character: Character) => {
   const lowerName = character.name.toLowerCase();
   const affiliations =
@@ -38,10 +37,9 @@ const CardComponent: React.FC<CardComponentProps> = ({
   isInTeam,
   customClass,
 }) => {
-  const { isSith, isJedi } = isSithOrJedi(character); // Determine if character is Sith or Jedi
+  const { isSith, isJedi } = isSithOrJedi(character);
   const cardId = character.id;
 
-  // Determine classes based on Sith/Jedi
   const cardClass = isSith ? styles.sithCard : styles.jediCard;
   const logoClass = isSith ? styles.logoSith : styles.logoJedi;
   const cardNameClass = isSith ? styles.sithName : styles.jediName;
@@ -52,7 +50,6 @@ const CardComponent: React.FC<CardComponentProps> = ({
   const flipCardBackClass = isInTeam(cardId) ? styles.hidden : "";
   const flipCardFrontClass = isInTeam(cardId) ? styles.noRotation : "";
 
-  // Handle the click event for adding to team
   const handleAddToTeamClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -125,7 +122,6 @@ const CardComponent: React.FC<CardComponentProps> = ({
                     : "unknown"}
                 </p>
               </li>
-              {/* Only show button if not a Sith */}
               {!isSith && (
                 <button
                   className={styles.cardButton}

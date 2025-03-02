@@ -1,13 +1,11 @@
 import { Character } from "../types/StarwarsApi.types";
 
-// Export fetcher function
 export const fetcher = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
   return data;
 };
 
-// Export isSithOrJedi function
 export const isSithOrJedi = (character: Character) => {
   const lowerName = character.name.toLowerCase();
   const affiliations =
@@ -28,7 +26,6 @@ export const isSithOrJedi = (character: Character) => {
   return { isSith, isJedi };
 };
 
-// Export checkIdExists function
 export const checkIdExists = async (
   idToCheck: number
 ): Promise<Character | null> => {
@@ -45,7 +42,6 @@ export const checkIdExists = async (
   }
 };
 
-// Export findValidId function
 export const findValidId = async (startId: number, searchLimit = 5) => {
   for (let i = 1; i <= searchLimit; i++) {
     const character = await checkIdExists(startId + i);

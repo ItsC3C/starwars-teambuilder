@@ -15,7 +15,7 @@ const GridComponent: React.FC<GridComponentProps> = ({
   isInTeam,
 }) => {
   const { data, error, isLoading } = useStarWarsCharacters();
-  const [pageSize] = useState(20); // 20 characters per page
+  const [pageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState("");
 
@@ -30,7 +30,7 @@ const GridComponent: React.FC<GridComponentProps> = ({
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    setCurrentPage(1); // Reset to page 1 on search change
+    setCurrentPage(1);
   };
 
   if (isLoading) return <p>Loading...</p>;
@@ -85,7 +85,7 @@ const GridComponent: React.FC<GridComponentProps> = ({
       </div>
 
       <Pagination
-        totalPages={totalPages} // Dynamically calculate totalPages
+        totalPages={totalPages}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         onPrevious={handlePreviousClick}

@@ -5,13 +5,13 @@ import menuButton from "../../assets/menu-button.svg";
 import CardComponent from "./CardComponent";
 import { Character } from "../../types/StarwarsApi.types";
 import removeButton from "../../assets/remove-button.svg";
-import { TeamContext } from "../../context/TeamContext"; // Import TeamContext
-import { showErrorToast, showSuccessToast } from "../../utils/toastUtils"; // Import Toast Utils
+import { TeamContext } from "../../context/TeamContext";
+import { showErrorToast, showSuccessToast } from "../../utils/toastUtils";
 
 interface TeamComponentProps {
   onRemoveFromTeam: (id: number) => void;
   isInTeam: (id: number) => boolean;
-  characters: Character[]; // Full list of characters
+  characters: Character[];
   setIsSidebarOpen: (isOpen: boolean) => void;
 }
 
@@ -21,19 +21,16 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
   characters,
   setIsSidebarOpen,
 }) => {
-  // Access context and destructure currentTeam and setCurrentTeam
   const { currentTeam, setCurrentTeam } = useContext(TeamContext) || {};
 
   if (!currentTeam || !setCurrentTeam) {
     throw new Error("TeamContext is not provided");
   }
 
-  // Filter characters to display those in the team
   const teamCharacters = characters.filter((character) =>
     currentTeam.some((teamMember) => teamMember.id === character.id)
   );
 
-  // Battle logic
   const [isBattleEnabled, setIsBattleEnabled] = useState<boolean>(
     teamCharacters.length === 5
   );
@@ -58,13 +55,11 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
   };
 
   const handleResetTeam = () => {
-    // Reset the team by clearing the currentTeam array
     setCurrentTeam([]);
-    setBattleResult(null); // Clear the battle result
+    setBattleResult(null);
     showSuccessToast("Your team has been reset! Choose new members.");
   };
 
-  // Update battle button status dynamically based on team size
   useEffect(() => {
     setIsBattleEnabled(teamCharacters.length === 5);
   }, [teamCharacters]);
@@ -119,7 +114,7 @@ const TeamComponent: React.FC<TeamComponentProps> = ({
           <button
             className={styles.battleButton}
             onClick={handleBattle}
-            disabled={!isBattleEnabled} // Disable battle button if team is not full
+            disabled={!isBattleEnabled}
           >
             {isBattleEnabled ? "BATTLE" : "Assemble a full squad first"}
           </button>
