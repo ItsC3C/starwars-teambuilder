@@ -17,6 +17,10 @@ body {
     overflow-x: hidden;
     height: 100vh;
     text-align: center;
+
+    &:first-child {
+        max-width: 1200px;
+    }
 }
 
 main {

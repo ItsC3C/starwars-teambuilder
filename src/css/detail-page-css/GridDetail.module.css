@@ -157,8 +157,6 @@
                     width: 100%;
                 }
             }
-
-            .AddToTeamButton {}
         }
     }
 }
@@ -184,10 +182,6 @@
         .detailHolder {
             .affiliations {
                 column-count: 1;
-            }
-
-            .detailHolder {
-                .AddToTeamButton {}
             }
         }
     }
