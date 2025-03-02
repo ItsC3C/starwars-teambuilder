@@ -1,5 +1,7 @@
 # Star Wars Teambuilder
 
+[English below](#star-wars-teambuilder-1)
+
 Een webapplicatie waarmee gebruikers hun eigen Star Wars karakterteams kunnen creëren en aanpassen.
 
 ## Overzicht
@@ -81,6 +83,8 @@ Project Link: [https://github.com/yourusername/star-wars-teambuilder](https://gi
 Email: cedricvanhoorebeke@outlook.com
 
 ---
+
+<a id="star-wars-teambuilder-1"></a>
 
 # Star Wars Teambuilder
 
